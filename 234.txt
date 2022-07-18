@@ -1,0 +1,23 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        rev=None        #역순 연결 리스트 rev
+        slow=fast=head
+        
+        #런너를 이용해 역순 연결 리스트 구성
+        while fast and fast.next:   #fast Runner의 next가 존재하지 않을 때까지 이동
+            fast=fast.next.next        #fast Runner는 두 칸씩 이동시킨다. 
+            rev,rev.next,slow=slow,rev,slow.next    #역순 리스트 만들기
+        
+        if fast:
+            slow=slow.next  #연결 리스트 값이 홀수 개일 경우 중앙값을 빗겨나가게 해야함.
+            
+        #팰린드롬 여부 확인
+        while rev and rev.val==slow.val:
+            slow,rev=slow.next,rev.next
+            
+        return not rev  #rev/slow가 None이라면 팰린드롬이다(true반환)
